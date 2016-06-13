@@ -1,0 +1,15 @@
+settings player_names player1
+settings your_bot player1
+settings timebank 10000
+settings time_per_move 500
+settings max_checkpoints 10
+settings record_format date,acquirer,issuercountrycode,displayabletxvariantcode,txvariantcode,bin,amount,currency,eur_amount,shopperinteraction,cardverificationcodesupplied,cardid,emailid,shopperipid,shopperreferenceid
+action checkpoints 10000
+update player1 next_record 10/19/15 18:03,43991,GB,mc,mccredit,518652,55,GBP,76.17,Ecommerce,TRUE,832,26100,12,1
+action record 10000
+update player1 next_record 10/7/15 12:30,43991,FR,visa,mccredit,556950,49,GBP,67.66,Ecommerce,TRUE,18044,36620,10,23
+action record 10000
+update player1 next_record 10/10/15 11:44,43992,GB,visa,visadebit,475117,84,GBP,115.56,Ecommerce,TRUE,30602,30189,4,33
+action record 10000
+update player1 next_record 10/17/15 19:47,43992,FR,visa,visadebit,431947,243,EUR,243.16,Ecommerce,TRUE,15418,12592,6,116
+action record 10000
