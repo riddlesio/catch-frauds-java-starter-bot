@@ -34,14 +34,14 @@ import java.util.logging.Logger;
  *
  * @author Jim van Eeden - jim@riddles.io
  */
-public class Record {
+public class PaymentRecord {
 
-    private final static Logger LOGGER = Logger.getLogger(Record.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(PaymentRecord.class.getName());
 
     private HashMap<String, String> stringValueMap;
     private double euroAmount;
 
-    public Record(String[] recordFormat, String record) throws InstantiationError {
+    public PaymentRecord(String[] recordFormat, String record) throws InstantiationError {
         this.stringValueMap  = new HashMap<>();
         String[] values = record.split(",");
 

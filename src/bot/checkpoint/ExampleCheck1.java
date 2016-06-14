@@ -19,8 +19,8 @@
 
 package bot.checkpoint;
 
-import bot.BotState;
-import bot.data.Record;
+import bot.RiskSystemState;
+import bot.data.PaymentRecord;
 
 /**
  * bot.checkpoint.ExampleCheck
@@ -29,9 +29,9 @@ import bot.data.Record;
  *
  * @author Jim van Eeden - jim@riddles.io
  */
-public class ExampleCheck extends AbstractCheck {
+public class ExampleCheck1 extends AbstractCheck {
 
-    public ExampleCheck(int id) {
+    public ExampleCheck1(int id) {
         super(id);
     }
 
@@ -41,8 +41,8 @@ public class ExampleCheck extends AbstractCheck {
     }
 
     @Override
-    public boolean approveRecord(BotState state) {
-        Record record = state.getCurrentRecord();
+    public boolean approveRecord(RiskSystemState state) {
+        PaymentRecord record = state.getCurrentRecord();
 
         boolean isFrench = record.getData("issuercountrycode").equals("FR");
         boolean isVisa = record.getData("displayabletxvariantcode").equals("visa");

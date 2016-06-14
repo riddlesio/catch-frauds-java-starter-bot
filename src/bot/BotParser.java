@@ -38,17 +38,17 @@ import bot.action.Assessment;
 
 public class BotParser {
 
-    private final static Logger LOGGER = Logger.getLogger(BotState.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(RiskSystemState.class.getName());
 
     private final Scanner scan;
     private final BotStarter bot;
 
-    private BotState currentState;
+    private RiskSystemState currentState;
 
     public BotParser(BotStarter bot) {
         this.scan = new Scanner(System.in);
         this.bot = bot;
-        this.currentState = new BotState();
+        this.currentState = new RiskSystemState();
     }
 
     /**
