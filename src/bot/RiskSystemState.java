@@ -24,10 +24,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import bot.action.Assessment;
-import bot.data.Record;
+import bot.data.PaymentRecord;
 
 /**
- * bot.BotState
+ * bot.RiskSystemState
  * 
  * Stores all information about the current bot state, such as the bot's timebank,
  * the bot's name, records gotten so far and assessments made so far (and more).
@@ -39,21 +39,21 @@ import bot.data.Record;
  * @author Jim van Eeden - jim@riddles.io
  */
 
-public class BotState {
+public class RiskSystemState {
 
-    private final static Logger LOGGER = Logger.getLogger(BotState.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(RiskSystemState.class.getName());
 
     private int MAX_TIMEBANK;
     private int TIME_PER_MOVE;
     private int MAX_CHECKPOINTS;
 
     private String[] recordFormat;
-    private ArrayList<Record> records;
+    private ArrayList<PaymentRecord> records;
     private ArrayList<Assessment> assessments;
     private int timebank;
     private String myName;
     
-    public BotState() {
+    public RiskSystemState() {
         this.records = new ArrayList<>();
         this.assessments = new ArrayList<>();
     }
@@ -101,7 +101,7 @@ public class BotState {
      */
     public void parseRecord(String value) {
         try {
-            this.records.add(new Record(this.recordFormat, value));
+            this.records.add(new PaymentRecord(this.recordFormat, value));
         } catch (InstantiationError e) {
             LOGGER.log(Level.SEVERE, String.format("Cannot parse record '%s'", value), e);
         }
@@ -152,7 +152,7 @@ public class BotState {
      * Get the record that was last given by the game engine.
      * @return Current record
      */
-    public Record getCurrentRecord() {
+    public PaymentRecord getCurrentRecord() {
         return this.records.get(this.records.size() - 1);
     }
 
@@ -160,7 +160,7 @@ public class BotState {
      * Get all the records the bot has received so far.
      * @return A list of all records
      */
-    public ArrayList<Record> getRecords() {
+    public ArrayList<PaymentRecord> getRecords() {
         return this.records;
     }
 

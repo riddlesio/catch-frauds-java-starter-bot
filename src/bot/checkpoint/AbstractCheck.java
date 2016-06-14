@@ -21,7 +21,7 @@ package bot.checkpoint;
 
 import java.util.logging.Logger;
 
-import bot.BotState;
+import bot.RiskSystemState;
 
 /**
  * bot.checkpoint.AbstractCheck
@@ -55,7 +55,7 @@ public abstract class AbstractCheck {
      * @param state Current bot state
      * @return True if the check is passed, false otherwise
      */
-    public abstract boolean approveRecord(BotState state);
+    public abstract boolean approveRecord(RiskSystemState state);
 
     /**
      * Gets the records id, used to output to the game engine.

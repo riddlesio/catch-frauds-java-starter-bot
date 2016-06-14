@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import bot.BotState;
+import bot.RiskSystemState;
 import bot.checkpoint.AbstractCheck;
 
 /**
@@ -52,7 +52,7 @@ public class Assessment {
      * @param checks A list of all checks
      * @param state Current state of the bot
      */
-    public void assessRecord(ArrayList<AbstractCheck> checks, BotState state) {
+    public void assessRecord(ArrayList<AbstractCheck> checks, RiskSystemState state) {
         this.failedChecks = this.doChecks(checks, state);
         this.isAuthorized = this.authorizeRecord(checks, state);
     }
@@ -64,7 +64,7 @@ public class Assessment {
      * @param state Current state of the bot
      * @return A list of the IDs of all failed checks
      */
-    private ArrayList<Integer> doChecks(ArrayList<AbstractCheck> checks, BotState state) {
+    private ArrayList<Integer> doChecks(ArrayList<AbstractCheck> checks, RiskSystemState state) {
         return checks.stream()
                 .filter(check -> !check.approveRecord(state))
                 .map(AbstractCheck::getId)
@@ -74,15 +74,15 @@ public class Assessment {
     /**
      * This method should return true if the record (state.getCurrentRecord())
      * is authorized, and false if the record is rejected.
-     * This example rejects a record if it fails all checks.
+     * This example rejects a record if it fails only one check.
      * @param checks A list of all checks
      * @param state Current state of the bot
      * @return True if record is authorized, false otherwise
      */
-    private boolean authorizeRecord(ArrayList<AbstractCheck> checks, BotState state) {
+    private boolean authorizeRecord(ArrayList<AbstractCheck> checks, RiskSystemState state) {
 
         // TODO: Change this to do something more intelligent
-        return this.failedChecks.size() < checks.size();
+        return this.failedChecks.size() < 1;
     }
 
     /**

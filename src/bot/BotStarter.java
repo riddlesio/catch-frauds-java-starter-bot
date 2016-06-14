@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import bot.action.Assessment;
 import bot.checkpoint.AbstractCheck;
-import bot.checkpoint.ExampleCheck;
+import bot.checkpoint.ExampleCheck1;
 import bot.checkpoint.ExampleCheck2;
 
 /**
@@ -44,7 +44,7 @@ public class BotStarter {
         this.checks = new ArrayList<>();
 
         // TODO: Change these example checks for useful ones and add more checks
-        this.checks.add(new ExampleCheck(1));
+        this.checks.add(new ExampleCheck1(1));
         this.checks.add(new ExampleCheck2(2));
     }
 
@@ -55,7 +55,7 @@ public class BotStarter {
      * @param timeout Time in ms the bot has to respond before a time out
      * @return Assessment of the current record
      */
-    public Assessment getAssessment(BotState state, int timeout) {
+    public Assessment getAssessment(RiskSystemState state, int timeout) {
         state.setTimebank(timeout);
 
         Assessment assessment = new Assessment();

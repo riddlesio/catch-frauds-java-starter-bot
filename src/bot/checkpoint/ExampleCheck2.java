@@ -19,8 +19,8 @@
 
 package bot.checkpoint;
 
-import bot.BotState;
-import bot.data.Record;
+import bot.RiskSystemState;
+import bot.data.PaymentRecord;
 
 /**
  * bot.checkpoint.ExampleCheck2
@@ -41,8 +41,8 @@ public class ExampleCheck2 extends AbstractCheck {
     }
 
     @Override
-    public boolean approveRecord(BotState state) {
-        Record record = state.getCurrentRecord();
+    public boolean approveRecord(RiskSystemState state) {
+        PaymentRecord record = state.getCurrentRecord();
 
         return record.getAmount() <= 100;
     }
