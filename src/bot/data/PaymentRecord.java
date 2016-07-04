@@ -39,7 +39,7 @@ public class PaymentRecord {
     private final static Logger LOGGER = Logger.getLogger(PaymentRecord.class.getName());
 
     private HashMap<String, String> stringValueMap;
-    private double euroAmount;
+    private double amount;
 
     public PaymentRecord(String[] recordFormat, String record) throws InstantiationError {
         this.stringValueMap  = new HashMap<>();
@@ -58,8 +58,8 @@ public class PaymentRecord {
     private void parseValues(String key, String value) {
         try {
             switch (key) {
-                case "eur_amount":
-                    this.euroAmount = Double.parseDouble(value);
+                case "amount":
+                    this.amount = Double.parseDouble(value);
                     break;
                 default:
 //                    LOGGER.severe(String.format("Can't parse record with key '%s'", key));
@@ -75,10 +75,10 @@ public class PaymentRecord {
     }
 
     public double getAmount() {
-        return this.euroAmount;
+        return this.amount;
     }
 
-    // TODO: Parse the record values (such as date, amount, etc.), which are now just strings
+    // TODO: Parse the record values (such as date, etc.), which are now just strings
 
     // TODO: Implement useful methods to perform calculations on the record data
 }
