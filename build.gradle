@@ -2,14 +2,31 @@ group 'io.riddles'
 version '1.0.0'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
+
+// Include dependent libraries in archive.
+mainClassName = 'bot.BotStarter'
+version = '1.0.0'
 
 sourceSets {
     main {
         java {
             srcDir 'src'
         }
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Catch Frauds starterbot',
+                'Implementation-Version': version,
+                'Main-Class': mainClassName
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
