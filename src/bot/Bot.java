@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 riddles.io (developers@riddles.io)
+ * Copyright 2018 riddles.io (developers@riddles.io)
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 package bot;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import bot.action.Assessment;
@@ -36,16 +37,16 @@ import bot.checkpoint.ExampleCheck2;
  * @author Jim van Eeden - jim@riddles.io
  */
 
-public class BotStarter {
+public class Bot {
 
     private ArrayList<AbstractCheck> checks;
 
-    public BotStarter () {
+    public Bot() {
         this.checks = new ArrayList<>();
 
         // TODO: Change these example checks for useful ones and add more checks
-        this.checks.add(new ExampleCheck1(1));
-        this.checks.add(new ExampleCheck2(2));
+        this.checks.add(new ExampleCheck1(0)); // ID needs to start with 0
+        this.checks.add(new ExampleCheck2(1));
     }
 
     /**
@@ -73,7 +74,7 @@ public class BotStarter {
      */
     public String checkPointsToString() {
         return this.checks.stream()
-                .sorted((c1, c2) -> Integer.compare(c1.getId(), c2.getId()))
+                .sorted(Comparator.comparingInt(AbstractCheck::getId))
                 .map(AbstractCheck::getDescription)
                 .collect(Collectors.joining(";"));
     }
@@ -83,7 +84,7 @@ public class BotStarter {
      * @param args Ignored
      */
     public static void main(String[] args) {
-        BotParser parser = new BotParser(new BotStarter());
+        Parser parser = new Parser(new Bot());
         parser.run();
     }
  }

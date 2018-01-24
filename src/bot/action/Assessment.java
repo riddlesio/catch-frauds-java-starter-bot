@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 riddles.io (developers@riddles.io)
+ * Copyright 2018 riddles.io (developers@riddles.io)
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -20,8 +20,6 @@
 package bot.action;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import bot.RiskSystemState;
 import bot.checkpoint.AbstractCheck;
@@ -39,10 +37,7 @@ import bot.checkpoint.AbstractCheck;
  */
 public class Assessment {
 
-    private final static Logger LOGGER = Logger.getLogger(Assessment.class.getName());
-
-    private Boolean isAuthorized;
-    private ArrayList<Integer> failedChecks;
+    private Integer failedCheck;
 
     /**
      * Used to assess the current record and store the assessment so it can
@@ -53,8 +48,7 @@ public class Assessment {
      * @param state Current state of the bot
      */
     public void assessRecord(ArrayList<AbstractCheck> checks, RiskSystemState state) {
-        this.failedChecks = this.doChecks(checks, state);
-        this.isAuthorized = this.authorizeRecord(checks, state);
+        this.failedCheck = this.doChecks(checks, state);
     }
 
     /**
@@ -62,27 +56,16 @@ public class Assessment {
      * all the checks and stores the ID of the check if it does not pass the check.
      * @param checks A list of all checks
      * @param state Current state of the bot
-     * @return A list of the IDs of all failed checks
+     * @return null if no check failed, the ID of the check that failed otherwise.
      */
-    private ArrayList<Integer> doChecks(ArrayList<AbstractCheck> checks, RiskSystemState state) {
-        return checks.stream()
-                .filter(check -> !check.approveRecord(state))
-                .map(AbstractCheck::getId)
-                .collect(Collectors.toCollection(ArrayList::new));
-    }
+    private Integer doChecks(ArrayList<AbstractCheck> checks, RiskSystemState state) {
+        for (AbstractCheck check : checks) {
+            if (!check.approveRecord(state)) {
+                return check.getId();
+            }
+        }
 
-    /**
-     * This method should return true if the record (state.getCurrentRecord())
-     * is authorized, and false if the record is rejected.
-     * This example rejects a record if it fails only one check.
-     * @param checks A list of all checks
-     * @param state Current state of the bot
-     * @return True if record is authorized, false otherwise
-     */
-    private boolean authorizeRecord(ArrayList<AbstractCheck> checks, RiskSystemState state) {
-
-        // TODO: Change this to do something more intelligent
-        return this.failedChecks.size() < 1;
+        return null;
     }
 
     /**
@@ -91,16 +74,10 @@ public class Assessment {
      */
     @Override
     public String toString() {
-        if (this.isAuthorized == null) {
-            LOGGER.severe("No assessment done yet. Output set to 'pass'");
-            return "pass";
+        if (this.failedCheck == null) {
+            return "authorized";
         }
 
-        String authorized = this.isAuthorized ? "authorized" : "rejected";
-        String failedChecksString = this.failedChecks.stream()
-                .map(check -> check + "")
-                .collect(Collectors.joining(","));
-
-        return String.format("%s %s", authorized, failedChecksString);
+        return String.format("rejected %d", this.failedCheck);
     }
 }

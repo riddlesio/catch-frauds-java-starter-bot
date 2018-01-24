@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 riddles.io (developers@riddles.io)
+ * Copyright 2018 riddles.io (developers@riddles.io)
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@
 
 package bot.checkpoint;
 
-import java.util.logging.Logger;
-
 import bot.RiskSystemState;
 
 /**
@@ -32,8 +30,6 @@ import bot.RiskSystemState;
  * @author Jim van Eeden - jim@riddles.io
  */
 public abstract class AbstractCheck {
-
-    protected final static Logger LOGGER = Logger.getLogger(AbstractCheck.class.getName());
 
     private int id;
 

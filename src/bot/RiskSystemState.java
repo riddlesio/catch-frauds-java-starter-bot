@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 riddles.io (developers@riddles.io)
+ * Copyright 2018 riddles.io (developers@riddles.io)
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -20,8 +20,6 @@
 package bot;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import bot.action.Assessment;
 import bot.data.PaymentRecord;
@@ -32,16 +30,12 @@ import bot.data.PaymentRecord;
  * Stores all information about the current bot state, such as the bot's timebank,
  * the bot's name, records gotten so far and assessments made so far (and more).
  *
- * Also parses the input gotten from the game engine.
- *
  * This class can be editted to store even more data.
  * 
  * @author Jim van Eeden - jim@riddles.io
  */
 
 public class RiskSystemState {
-
-    private final static Logger LOGGER = Logger.getLogger(RiskSystemState.class.getName());
 
     private int MAX_TIMEBANK;
     private int TIME_PER_MOVE;
@@ -56,55 +50,6 @@ public class RiskSystemState {
     public RiskSystemState() {
         this.records = new ArrayList<>();
         this.assessments = new ArrayList<>();
-    }
-    
-    /**
-     * Parses all the game settings given by the game engine
-     * @param key Type of data given
-     * @param value Value
-     */
-    public void parseSettings(String key, String value) {
-        try {
-            switch (key) {
-                case "timebank":
-                    int time = Integer.parseInt(value);
-                    this.MAX_TIMEBANK = time;
-                    this.timebank = time;
-                    break;
-                case "time_per_move":
-                    this.TIME_PER_MOVE = Integer.parseInt(value);
-                    break;
-                case "player_names":
-                    // ignore, only 1 player this game
-                    break;
-                case "your_bot":
-                    this.myName = value;
-                    break;
-                case "max_checkpoints":
-                    this.MAX_CHECKPOINTS = Integer.parseInt(value);
-                    break;
-                case "record_format":
-                    this.recordFormat = value.split(",");
-                    break;
-                default:
-                    LOGGER.severe(String.format("Cannot parse settings input with key '%s'", key));
-            }
-       } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, String.format(
-                    "Cannot parse settings value '%s' for key '%s'", value, key), e);
-       }
-    }
-    
-    /**
-     * Parse a record that was sent by the game engine
-     * @param value String representation of the record
-     */
-    public void parseRecord(String value) {
-        try {
-            this.records.add(new PaymentRecord(this.recordFormat, value));
-        } catch (InstantiationError e) {
-            LOGGER.log(Level.SEVERE, String.format("Cannot parse record '%s'", value), e);
-        }
     }
 
     /**
@@ -170,5 +115,56 @@ public class RiskSystemState {
      */
     public ArrayList<Assessment> getAssessments() {
         return this.assessments;
+    }
+
+    /**
+     * Sets the maximum timebank as given by the settings.
+     * @param maxTimebank Maximum timebank
+     */
+    public void setMaxTimebank(int maxTimebank) {
+        MAX_TIMEBANK = maxTimebank;
+    }
+
+    /**
+     * Sets the time per move as given by the settings.
+     * @param timePerMove Time per move
+     */
+    public void setTimePerMove(int timePerMove) {
+        TIME_PER_MOVE = timePerMove;
+    }
+
+    /**
+     * Sets the maximum amount of checkpoints available as given
+     * by the settings.
+     * @param maxCheckpoints The maximum amount of checkpoints
+     */
+    public void setMaxCheckpoints(int maxCheckpoints) {
+        MAX_CHECKPOINTS = maxCheckpoints;
+    }
+
+    /**
+     * Sets the name given to this bot as far as the engine
+     * is concerned (player0 for this game).
+     * @param myName My name
+     */
+    public void setMyName(String myName) {
+        this.myName = myName;
+    }
+
+    /**
+     * Sets the record format, i.e. the headers of the columns
+     * in the records table.
+     * @param recordFormat The record format.
+     */
+    public void setRecordFormat(String[] recordFormat) {
+        this.recordFormat = recordFormat;
+    }
+
+    public void addToRecords(String input) {
+        try {
+            this.records.add(new PaymentRecord(this.recordFormat, input));
+        } catch (InstantiationError e) {
+            System.err.println(String.format("Cannot parse record '%s'", input));
+        }
     }
 }

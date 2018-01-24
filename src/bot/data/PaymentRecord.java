@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 riddles.io (developers@riddles.io)
+ * Copyright 2018 riddles.io (developers@riddles.io)
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -24,19 +24,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Record
+ * PaymentRecord
  *
- * This class stores all information about a record and methods can
+ * This class stores all information about a record. Methods can
  * be implemented here that perform calculations on the record data
  *
- * Currently only stores a map of all the string values of the record,
- * plus the parsed amount.
+ * Currently only stores a map of all the string values of the record
+ * and additionally parses and stores the amount.
  *
  * @author Jim van Eeden - jim@riddles.io
  */
 public class PaymentRecord {
-
-    private final static Logger LOGGER = Logger.getLogger(PaymentRecord.class.getName());
 
     private HashMap<String, String> stringValueMap;
     private double amount;
@@ -61,12 +59,11 @@ public class PaymentRecord {
                 case "amount":
                     this.amount = Double.parseDouble(value);
                     break;
-                default:
-//                    LOGGER.severe(String.format("Can't parse record with key '%s'", key));
+                // case "xxx": You can add more value parsing here
             }
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, String.format(
-                    "Cannot parse record value '%s' for key '%s'", value, key), e);
+            System.err.println(String.format(
+                    "Cannot parse record value '%s' for key '%s'", value, key));
         }
     }
 
