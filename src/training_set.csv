@@ -1,5 +1,4 @@
 txid,shopper_id,amount,shopper_country,issuer_country,shopper_email,creation_date,card_number_hash,txvariantcode,bin,currency,fraud
-601,74,9843,RO,RO,frederic_garris@sky.com,19/10/2016 06:15 AM,8702765eaacb8e125b,visastandarddebit,203189,EUR,1
 602,321,3426,MP,IN,agatha.march@verizon.net,19/10/2016 08:18 AM,b5c864f8bb3b64e3c0,amex_applepay,422779,NOK,1
 603,18,98231,UA,CV,marceleneshearer@live.nl,19/10/2016 08:37 AM,924cec165983bb686d,visabusiness,629029,NOK,1
 604,321,133686,MP,PM,agatha.march@verizon.net,19/10/2016 08:56 AM,d77dff1ba76cc09def,mc_samsungpay,786880,GBP,1
