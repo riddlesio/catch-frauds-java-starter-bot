@@ -44,8 +44,10 @@ public class ExampleCheck1 extends AbstractCheck {
     public boolean approveRecord(RiskSystemState state) {
         PaymentRecord record = state.getCurrentRecord();
 
+        System.err.println("ExampleCheck1: Checking record " + record.getData("txid"));
+
         boolean isFrench = record.getData("issuer_country").equals("FR");
-        boolean isVisa = record.getData("txvariantcode").startsWith("visa");
+        boolean isVisa = record.getData("txvariantcode").startsWith("VISA");
 
         return !isFrench || !isVisa;
     }

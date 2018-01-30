@@ -37,13 +37,15 @@ public class ExampleCheck2 extends AbstractCheck {
 
     @Override
     public String getDescription() {
-        return "Rejects transaction amounts higher than 10000";
+        return "Rejects transaction amounts higher than 100.00";
     }
 
     @Override
     public boolean approveRecord(RiskSystemState state) {
         PaymentRecord record = state.getCurrentRecord();
 
-        return record.getAmount() <= 10000;
+        System.err.println("ExampleCheck2: Checking record " + record.getData("txid"));
+
+        return record.getAmount() <= 10000;  // Doesn't check which currency it is
     }
 }
