@@ -22,14 +22,20 @@ package bot.checkpoint;
 import bot.RiskSystemState;
 import bot.data.PaymentRecord;
 
+import java.util.logging.Logger;
+
 /**
  * bot.checkpoint.ExampleCheck1
  *
- * Example check
+ * Example check 1
  *
  * @author Jim van Eeden - jim@riddles.io
  */
 public class ExampleCheck1 extends AbstractCheck {
+
+    private static final Logger log = Logger.getLogger(ExampleCheck1.class.getSimpleName());
+
+    private int counter = 0;
 
     public ExampleCheck1(int id) {
         super(id);
@@ -37,18 +43,23 @@ public class ExampleCheck1 extends AbstractCheck {
 
     @Override
     public String getDescription() {
-        return "Rejects French visa cards";
+        return "Rejects odd transactions";
     }
 
     @Override
     public boolean approveRecord(RiskSystemState state) {
         PaymentRecord record = state.getCurrentRecord();
 
-        System.err.println("ExampleCheck1: Checking record " + record.getData("txid"));
+        String txId = record.getData("txid");
+        this.counter++;
 
-        boolean isFrench = record.getData("issuer_country").equals("FR");
-        boolean isVisa = record.getData("txvariantcode").startsWith("VISA");
+        if (this.counter % 2 == 1) {
+            log.info(String.format(
+                    "Refuse every other transaction. txId: %s, counter: %d", txId, this.counter
+            ));
+            return false;
+        }
 
-        return !isFrench || !isVisa;
+        return true;
     }
 }

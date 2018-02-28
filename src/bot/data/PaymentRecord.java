@@ -20,6 +20,8 @@
 package bot.data;
 
 import java.util.HashMap;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 /**
  * PaymentRecord
@@ -28,14 +30,17 @@ import java.util.HashMap;
  * be implemented here that perform calculations on the record data
  *
  * Currently only stores a map of all the string values of the record
- * and additionally parses and stores the amount.
+ * and additionally parses and stores the amount and time stamps.
  *
  * @author Jim van Eeden - jim@riddles.io
  */
 public class PaymentRecord {
 
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     private HashMap<String, String> stringValueMap;
-    private double amount;
+    private long amount;
+    private LocalDateTime creationDate;
 
     public PaymentRecord(String[] recordFormat, String record) throws InstantiationError {
         this.stringValueMap  = new HashMap<>();
@@ -55,9 +60,12 @@ public class PaymentRecord {
         try {
             switch (key) {
                 case "amount":
-                    this.amount = Double.parseDouble(value);
+                    this.amount = Long.parseLong(value);
                     break;
-                // case "xxx": You can add more value parsing here
+                case "creation_date":
+                    this.creationDate = LocalDateTime.parse(value, formatter);
+                    break;
+                // case "xxx": You can add more parsing here
             }
         } catch (Exception e) {
             System.err.println(String.format(
@@ -69,8 +77,12 @@ public class PaymentRecord {
         return this.stringValueMap.get(key);
     }
 
-    public double getAmount() {
+    public long getAmount() {
         return this.amount;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return this.creationDate;
     }
 
     // TODO: Parse the record values (such as date, etc.), which are now just strings
