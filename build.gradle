@@ -8,7 +8,7 @@ sourceCompatibility = 1.8
 
 // Include dependent libraries in archive.
 mainClassName = 'bot.Bot'
-version = '1.2.0'
+version = '1.3.0'
 
 sourceSets {
     main {

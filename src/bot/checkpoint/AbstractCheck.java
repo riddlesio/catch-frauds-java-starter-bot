@@ -49,9 +49,9 @@ public abstract class AbstractCheck {
      * or fails this check. Should be implemented to do what is described
      * in the getDescription() method.
      * @param state Current bot state
-     * @return True if the check is passed, false otherwise
+     * @return True if the check is rejected, false if the record is approved
      */
-    public abstract boolean approveRecord(RiskSystemState state);
+    public abstract boolean rejectRecord(RiskSystemState state);
 
     /**
      * Gets the records id, used to output to the game engine.

@@ -20,6 +20,7 @@
 package bot.action;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import bot.RiskSystemState;
 import bot.checkpoint.AbstractCheck;
@@ -37,7 +38,7 @@ import bot.checkpoint.AbstractCheck;
  */
 public class Assessment {
 
-    private Integer failedCheck;
+    private ArrayList<Integer> failedChecks;
 
     /**
      * Used to assess the current record and store the assessment so it can
@@ -48,7 +49,7 @@ public class Assessment {
      * @param state Current state of the bot
      */
     public void assessRecord(ArrayList<AbstractCheck> checks, RiskSystemState state) {
-        this.failedCheck = this.doChecks(checks, state);
+        this.failedChecks = this.doChecks(checks, state);
     }
 
     /**
@@ -56,16 +57,13 @@ public class Assessment {
      * all the checks and stores the ID of the check if it does not pass the check.
      * @param checks A list of all checks
      * @param state Current state of the bot
-     * @return null if no check failed, the ID of the check that failed otherwise.
+     * @return A list of the IDs of all failed checks
      */
-    private Integer doChecks(ArrayList<AbstractCheck> checks, RiskSystemState state) {
-        for (AbstractCheck check : checks) {
-            if (!check.approveRecord(state)) {
-                return check.getId();
-            }
-        }
-
-        return null;
+    private ArrayList<Integer> doChecks(ArrayList<AbstractCheck> checks, RiskSystemState state) {
+        return checks.stream()
+                .filter(check -> check.rejectRecord(state))
+                .map(AbstractCheck::getId)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -74,10 +72,17 @@ public class Assessment {
      */
     @Override
     public String toString() {
-        if (this.failedCheck == null) {
+
+        // No checks failed, so record is authorized
+        if (this.failedChecks.isEmpty()) {
             return "authorized";
         }
 
-        return String.format("rejected %d", this.failedCheck);
+        // If any of the checks fails, the record is rejected
+        String failedChecksString = this.failedChecks.stream()
+                .map(check -> check + "")
+                .collect(Collectors.joining(","));
+
+        return String.format("rejected %s", failedChecksString);
     }
 }

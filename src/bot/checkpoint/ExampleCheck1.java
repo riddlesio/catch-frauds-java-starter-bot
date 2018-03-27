@@ -47,7 +47,7 @@ public class ExampleCheck1 extends AbstractCheck {
     }
 
     @Override
-    public boolean approveRecord(RiskSystemState state) {
+    public boolean rejectRecord(RiskSystemState state) {
         PaymentRecord record = state.getCurrentRecord();
 
         String txId = record.getData("txid");
@@ -57,9 +57,9 @@ public class ExampleCheck1 extends AbstractCheck {
             log.info(String.format(
                     "Refuse every other transaction. txId: %s, counter: %d", txId, this.counter
             ));
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 }

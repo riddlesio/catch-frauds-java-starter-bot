@@ -41,11 +41,11 @@ public class ExampleCheck2 extends AbstractCheck {
     }
 
     @Override
-    public boolean approveRecord(RiskSystemState state) {
+    public boolean rejectRecord(RiskSystemState state) {
         PaymentRecord record = state.getCurrentRecord();
 
         System.err.println("ExampleCheck2: Checking record " + record.getData("txid"));
 
-        return record.getAmount() <= 10000;  // Doesn't check which currency it is
+        return record.getAmount() > 10000;  // Doesn't check which currency it is
     }
 }

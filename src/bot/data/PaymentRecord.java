@@ -39,7 +39,7 @@ public class PaymentRecord {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private HashMap<String, String> stringValueMap;
-    private long amount;
+    private long amount;  // Amount in the data is in cents, so 1234 is 12.34
     private LocalDateTime creationDate;
 
     public PaymentRecord(String[] recordFormat, String record) throws InstantiationError {
